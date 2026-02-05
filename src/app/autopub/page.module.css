@@ -1,0 +1,82 @@
+.header {
+    padding: 6rem 0 4rem;
+    text-align: center;
+    background: radial-gradient(circle at center, rgba(189, 0, 255, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+}
+
+.featureSection {
+    padding: 4rem 0;
+}
+
+.featureGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    margin-top: 3rem;
+}
+
+.featureCard {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+.featureTitle {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.pricingSection {
+    padding: 4rem 0 6rem;
+    text-align: center;
+}
+
+.pricingGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.pricingCard {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+}
+
+.pricingCard.highlight {
+    border-color: var(--secondary);
+    box-shadow: 0 0 20px rgba(189, 0, 255, 0.15);
+}
+
+.planName {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.featuresList {
+    list-style: none;
+    text-align: left;
+    margin: 1.5rem 0;
+    color: #ccc;
+}
+
+.featuresList li {
+    margin-bottom: 0.5rem;
+    padding-left: 1.2rem;
+    position: relative;
+}
+
+.featuresList li::before {
+    content: '✓';
+    color: var(--primary);
+    position: absolute;
+    left: 0;
+}
