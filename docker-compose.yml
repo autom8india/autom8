@@ -12,11 +12,11 @@ services:
       - "traefik.http.routers.autom8.rule=Host(`auto-m8.pro`) || Host(`www.auto-m8.pro`)"
       - "traefik.http.routers.autom8.tls.certresolver=cloudflare"
       - "traefik.http.routers.autom8.entrypoints=websecure"
-      - "traefik.http.services.autom8.loadbalancer.server.port=80"
+      - "traefik.http.services.autom8.loadbalancer.server.port=3000"
     deploy:
       resources:
         limits:
-          memory: 128M
+          memory: 256M  # Next.js needs more than static nginx
           cpus: '0.25'
 
 networks:
