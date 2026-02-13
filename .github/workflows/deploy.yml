@@ -47,18 +47,42 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-
     steps:
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{ secrets.HOST }}
+          host: 217.217.248.96
           username: deploy
           key: ${{ secrets.SSH_KEY }}
           port: 2222
           script: |
+            # ADD THIS LINE (creates network if missing):
+            docker network create infrastructure 2>/dev/null || true
+            
+            mkdir -p /opt/containers/production/001-auto-m8-pro
+            
+            cat > /opt/containers/production/001-auto-m8-pro/docker-compose.yml << 'EOF'
+            services:
+              autom8-website:
+                image: ghcr.io/autom8india/autom8:latest
+                container_name: autom8-website
+                restart: unless-stopped
+                environment:
+                  - NODE_ENV=production
+                networks:
+                  - infrastructure
+                labels:
+                  - "traefik.enable=true"
+                  - "traefik.http.routers.autom8.rule=Host(`auto-m8.pro`) || Host(`www.auto-m8.pro`)"
+                  - "traefik.http.routers.autom8.tls.certresolver=cloudflare"
+                  - "traefik.http.routers.autom8.entrypoints=websecure"
+                  - "traefik.http.services.autom8.loadbalancer.server.port=3000"
+            
+            networks:
+              infrastructure:
+                external: true
+            EOF
+            
             cd /opt/containers/production/001-auto-m8-pro
-            docker pull ghcr.io/autom8india/autom8:latest
-            docker-compose up -d
-            docker system prune -f --volumes
-            echo "Deployed successfully to auto-m8.pro"
+            docker compose pull
+            docker compose up -d
